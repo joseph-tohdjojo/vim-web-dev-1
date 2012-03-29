@@ -28,6 +28,7 @@ Bundle "gregsexton/MatchTag"
 Bundle "altercation/vim-colors-solarized"
 Bundle "Townk/vim-autoclose"
 Bundle "wincent/Command-T"
+Bundle "kchmck/vim-coffee-script"
 
 filetype plugin indent on
 
@@ -193,6 +194,7 @@ set expandtab
   " Command-T
   let g:CommandTMaxHeight=5
   let g:bufExplorerShowRelativePath=1
+  set wildignore+=vendor/**
 
   " NERD tree"{{{
     let g:NERDTreeChristmasTree = 1
