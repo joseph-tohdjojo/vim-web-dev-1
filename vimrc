@@ -23,16 +23,21 @@ Bundle "vlasar/snipmate"
 Bundle "vlasar/snipmate-snippets"
 Bundle "thisivan/vim-bufexplorer"
 Bundle "mattn/gist-vim"
+Bundle "mattn/webapi-vim"
 Bundle "godlygeek/tabular"
 Bundle "gregsexton/MatchTag"
 Bundle "altercation/vim-colors-solarized"
 Bundle "Townk/vim-autoclose"
 Bundle "wincent/Command-T"
 Bundle "kchmck/vim-coffee-script"
+Bundle "tsaleh/vim-matchit"
+Bundle "kana/vim-textobj-user"
+Bundle "nelstrom/vim-textobj-rubyblock"
 
 filetype plugin indent on
 
 runtime! bundle/snipmate-snippets/support_functions.vim
+runtime macros/matchit.vim
 
 autocmd BufWritePre * :%s/\s\+$//e
 
@@ -111,12 +116,12 @@ set foldlevel=0
 set foldcolumn=0
 
 " Look and Feel settings
-set background=dark
-set t_Co=256
-colorscheme jellybeans
+set background=light
+set t_Co=16
+colorscheme solarized
 
 " Display extra whitespace
-set list listchars=tab:»·,trail:·
+" set list listchars=tab:»·,trail:·
 
 " General UI Options"
 set laststatus=2       " Always show the statusline
@@ -203,4 +208,5 @@ set expandtab
     let g:NERDTreeWinPos = 'left'
     let g:NERDTreeWinSize = 50
     let g:NERDTreeShowBookmarks = 1
+    let g:NERDTreeDirArrows=0
     map <F2> :NERDTreeToggle<CR>"}}}
