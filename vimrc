@@ -5,6 +5,8 @@ filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
+set rtp+=/home/vladimir/.local/lib/python2.7/site-packages/powerline/bindings/vim
+
 """""""""""
 " Bundles "
 """""""""""
@@ -15,9 +17,9 @@ Bundle "tpope/vim-fugitive"
 Bundle "tpope/vim-surround"
 Bundle "tpope/vim-endwise"
 Bundle "tpope/vim-repeat"
+Bundle "tpope/vim-dispatch"
 Bundle "scrooloose/nerdtree"
 Bundle "scrooloose/nerdcommenter"
-Bundle "Lokaltog/vim-powerline"
 Bundle "Lokaltog/vim-easymotion"
 Bundle "vlasar/snipmate"
 Bundle "vlasar/snipmate-snippets"
@@ -27,12 +29,14 @@ Bundle "mattn/webapi-vim"
 Bundle "godlygeek/tabular"
 Bundle "gregsexton/MatchTag"
 Bundle "altercation/vim-colors-solarized"
-Bundle "Townk/vim-autoclose"
-Bundle "wincent/Command-T"
 Bundle "kchmck/vim-coffee-script"
 Bundle "tsaleh/vim-matchit"
 Bundle "kana/vim-textobj-user"
 Bundle "nelstrom/vim-textobj-rubyblock"
+Bundle "kien/ctrlp.vim"
+Bundle "jpalardy/vim-slime"
+Bundle "vim-scripts/Auto-Pairs"
+Bundle "terryma/vim-smooth-scroll"
 
 filetype plugin indent on
 
@@ -52,7 +56,6 @@ set ruler
 exe "set path=".expand("$PATH")
 
 syntax enable
-
 set nomodeline
 set backspace=indent,eol,start                          " Backspace will delete EOL chars, as well as indents
 set matchpairs+=<:>                                     " For characters that forms pairs for using % commands, this is for HTML Tags
@@ -92,9 +95,12 @@ let g:mapleader = ' '
 " Disable all bells"
 set noerrorbells visualbell t_vb=
 
+" Color column at 80
+set colorcolumn=80
+
 " Wild menu (Autocompletion)"
 set wildmenu
-set wildignore=.svn,CVS,.git,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.jpeg,*.png,*.xpm,*.gif
+set wildignore=*/vendor/*,.svn,CVS,.git,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.jpeg,*.png,*.xpm,*.gif
 set wildmode=full
 
 " Backup and Swap"
@@ -125,6 +131,7 @@ colorscheme solarized
 
 " General UI Options"
 set laststatus=2       " Always show the statusline
+set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
 
 set showmatch          " Shows matching brackets when text indicator is over them
 set scrolloff=5        " Show 5 lines of context around the cursor
@@ -153,6 +160,17 @@ set shiftwidth=2
 set tabstop=2
 set expandtab
 
+" Fix terminal timeout when pressing escape
+if ! has('gui_running')
+  set ttimeoutlen=10
+  augroup FastEscape
+    autocmd!
+    au InsertEnter * set timeoutlen=0
+    au InsertLeave * set timeoutlen=1000
+  augroup END
+endif
+
+
 " MAPPINGS
 
 " General
@@ -161,6 +179,9 @@ set expandtab
 
   " Start BufExplorer
   nnoremap <silent><leader>l :BufExplorer<CR>
+
+  " Start ctrlp.vim
+  nnoremap <silent><leader>t :CtrlP<CR>
 
   " Paste
   let paste_mode = 0 " 0 = normal, 1 = paste
@@ -196,12 +217,7 @@ set expandtab
   let g:bufExplorerDefaultHelp=0       " Do not show default help.
   let g:bufExplorerShowRelativePath=1  " Show relative paths.
 
-  " Command-T
-  let g:CommandTMaxHeight=5
-  let g:bufExplorerShowRelativePath=1
-  set wildignore+=vendor/**
-
-  " NERD tree"{{{
+  " NERD tree
     let g:NERDTreeChristmasTree = 1
     let g:NERDTreeCaseSensitiveSort = 1
     let g:NERDTreeQuitOnOpen = 1
@@ -209,4 +225,14 @@ set expandtab
     let g:NERDTreeWinSize = 50
     let g:NERDTreeShowBookmarks = 1
     let g:NERDTreeDirArrows=0
-    map <F2> :NERDTreeToggle<CR>"}}}
+    map <F2> :NERDTreeToggle<CR>
+
+  " Slime
+  let g:slime_target = "tmux"
+  let g:slime_paste_file = "$HOME/.slime_paste"
+
+  " vim-smooth-scroll
+  noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+  noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+  noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+  noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>

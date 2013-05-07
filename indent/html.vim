@@ -13,9 +13,9 @@
 "endif
 "let b:did_indent = 1
 
-if exists("g:js_indent") 
+if exists("g:js_indent")
 	so g:js_indent
-else 
+else
 	ru! indent/javascript.vim
 endif
 
@@ -124,6 +124,36 @@ if !exists('g:html_indent_strict_table')
     call <SID>HtmlIndentPush('thead')
 endif
 
+" html 5.0 tags
+call <SID>HtmlIndentPush('article')
+call <SID>HtmlIndentPush('aside')
+call <SID>HtmlIndentPush('audio')
+call <SID>HtmlIndentPush('canvas')
+call <SID>HtmlIndentPush('command')
+call <SID>HtmlIndentPush('datalist')
+call <SID>HtmlIndentPush('details')
+call <SID>HtmlIndentPush('embed')
+call <SID>HtmlIndentPush('figcaption')
+call <SID>HtmlIndentPush('figure')
+call <SID>HtmlIndentPush('footer')
+call <SID>HtmlIndentPush('header')
+call <SID>HtmlIndentPush('hgroup')
+call <SID>HtmlIndentPush('keygen')
+call <SID>HtmlIndentPush('mark')
+call <SID>HtmlIndentPush('meter')
+call <SID>HtmlIndentPush('nav')
+call <SID>HtmlIndentPush('output')
+call <SID>HtmlIndentPush('progress')
+call <SID>HtmlIndentPush('rp')
+call <SID>HtmlIndentPush('rt')
+call <SID>HtmlIndentPush('ruby')
+call <SID>HtmlIndentPush('section')
+call <SID>HtmlIndentPush('source')
+call <SID>HtmlIndentPush('summary')
+call <SID>HtmlIndentPush('time')
+call <SID>HtmlIndentPush('video')
+call <SID>HtmlIndentPush('wbr')
+
 delfun <SID>HtmlIndentPush
 
 let s:cpo_save = &cpo
@@ -178,7 +208,7 @@ fun! <SID>HtmlIndentSum(lnum, style)
 endfun
 
 fun! HtmlIndentGetter(lnum)
-	
+
 	echo "Grabbing html indent for line: " . a:lnum
     " Find a non-empty line above the current line.
     let lnum = prevnonblank(a:lnum - 1)
@@ -216,11 +246,11 @@ fun! HtmlIndentGetter(lnum)
     if   0 < searchpair(js, '', '</script>', 'nWb')
     \ && 0 < searchpair(js, '', '</script>', 'nW')
 	" we're inside javascript
-	
+
 	if getline(lnum) !~ js && getline(a:lnum) !~ '</script>'
 	    if restore_ic == 0
 	      setlocal noic
-	    endif	
+	    endif
 		return GetJsIndent(a:lnum)
 	endif
     endif
@@ -250,5 +280,11 @@ endfun
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
+
+" new html 5 tags
+syn keyword htmlTagName contained article aside audio canvas command datalist
+syn keyword htmlTagName contained details embed figcaption figure footer header
+syn keyword htmlTagName contained hgroup keygen mark meter nav output progress
+syn keyword htmlTagName contained rp rt ruby section source summary time video
 
 " [-- EOF <runtime>/indent/html.vim --]

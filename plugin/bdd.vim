@@ -14,13 +14,14 @@ endfunction
 function! RunSpec(args)
   let spec = RailsScriptIfExists("rspec --drb")
   let cmd = spec . " " . a:args . " -fn -c " . @%
-  execute ":! echo " . cmd . " && " . cmd
+  execute ":Dispatch " . cmd
 endfunction
 
 function! RunCucumber(args)
   let cucumber = RailsScriptIfExists("cucumber --drb")
   let cmd = cucumber . " " . @% . a:args
-  execute ":! echo " . cmd . " && " . cmd
+  "execute ":! echo " . cmd . " && " . cmd
+  execute ":Dispatch " . cmd
 endfunction
 
 function! RunTestFile(args)
