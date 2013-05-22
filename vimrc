@@ -37,13 +37,15 @@ Bundle "kien/ctrlp.vim"
 Bundle "jpalardy/vim-slime"
 Bundle "vim-scripts/Auto-Pairs"
 Bundle "terryma/vim-smooth-scroll"
+Bundle "elzr/vim-json"
+Bundle "pangloss/vim-javascript"
 
 filetype plugin indent on
 
 runtime! bundle/snipmate-snippets/support_functions.vim
 runtime macros/matchit.vim
 
-autocmd BufWritePre * :%s/\s\+$//e
+" autocmd BufWritePre * :%s/\s\+$//e
 
 set title
 set hidden
@@ -236,3 +238,8 @@ endif
   noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
   noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
   noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+
+  " html.vim
+  let g:html_indent_inctags = "html,body,head,tbody"
+  let g:html_indent_script1 = "inc"
+  let g:html_indent_style1 = "inc"
