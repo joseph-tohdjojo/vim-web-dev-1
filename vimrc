@@ -1,45 +1,49 @@
+set rtp+=/home/vladimir/.local/lib/python2.7/site-packages/powerline/bindings/vim
+
 " Vundle Settings
 set nocompatible
 filetype off
-
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-set rtp+=/home/vladimir/.local/lib/python2.7/site-packages/powerline/bindings/vim
-
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 """""""""""
 " Bundles "
 """""""""""
-Bundle "gmarik/vundle"
-Bundle "tpope/vim-rails"
-Bundle "tpope/vim-cucumber"
-Bundle "tpope/vim-fugitive"
-Bundle "tpope/vim-surround"
-Bundle "tpope/vim-endwise"
-Bundle "tpope/vim-repeat"
-Bundle "tpope/vim-dispatch"
-Bundle "scrooloose/nerdtree"
-Bundle "scrooloose/nerdcommenter"
-Bundle "Lokaltog/vim-easymotion"
-Bundle "vlasar/snipmate"
-Bundle "vlasar/snipmate-snippets"
-Bundle "thisivan/vim-bufexplorer"
-Bundle "mattn/gist-vim"
-Bundle "mattn/webapi-vim"
-Bundle "godlygeek/tabular"
-Bundle "gregsexton/MatchTag"
-Bundle "altercation/vim-colors-solarized"
-Bundle "kchmck/vim-coffee-script"
-Bundle "tsaleh/vim-matchit"
-Bundle "kana/vim-textobj-user"
-Bundle "nelstrom/vim-textobj-rubyblock"
-Bundle "kien/ctrlp.vim"
-Bundle "jpalardy/vim-slime"
-Bundle "vim-scripts/Auto-Pairs"
-Bundle "terryma/vim-smooth-scroll"
-Bundle "elzr/vim-json"
-Bundle "jelera/vim-javascript-syntax"
-
+Plugin 'gmarik/Vundle.vim'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'tpope/vim-rails'
+Plugin 'tpope/vim-cucumber'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-endwise'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-dispatch'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'garbas/vim-snipmate'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'vim-scripts/tlib'
+Plugin 'honza/vim-snippets'
+Plugin 'thisivan/vim-bufexplorer'
+Plugin 'godlygeek/tabular'
+Plugin 'gregsexton/MatchTag'
+Plugin 'semmons99/vim-ruby-matchit'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'kana/vim-textobj-user'
+Plugin 'nelstrom/vim-textobj-rubyblock'
+Plugin 'vim-scripts/Auto-Pairs'
+Plugin 'terryma/vim-smooth-scroll'
+Plugin 'elzr/vim-json'
+Plugin 'scrooloose/syntastic'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'ervandew/supertab'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'Raimondi/delimitMate'
+"""""""""""""""
+" Bundles END "
+"""""""""""""""
+call vundle#end()
 filetype plugin indent on
 
 runtime! bundle/snipmate-snippets/support_functions.vim
@@ -89,8 +93,7 @@ augroup fastescape
 	au InsertLeave * set notimeout
 augroup END
 
-
-" Define , as map leader"
+" Define ' ' as map leader"
 let mapleader = ' '
 let g:mapleader = ' '
 
@@ -102,7 +105,7 @@ set colorcolumn=80
 
 " Wild menu (Autocompletion)"
 set wildmenu
-set wildignore=*/vendor/*,.svn,CVS,.git,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.jpeg,*.png,*.xpm,*.gif
+set wildignore=.svn,CVS,.git,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.jpeg,*.png,*.xpm,*.gif
 set wildmode=full
 
 " Backup and Swap"
@@ -129,7 +132,7 @@ set t_Co=16
 colorscheme solarized
 
 " Display extra whitespace
-" set list listchars=tab:»·,trail:·
+set list listchars=tab:»·,trail:·
 
 " General UI Options"
 set laststatus=2       " Always show the statusline
@@ -176,8 +179,11 @@ endif
 " MAPPINGS
 
 " General
-	" Clear search highlighting
+  " Clear search highlighting
   nnoremap <silent><leader>c :nohlsearch<CR>
+
+  " Highlight the current line
+  nnoremap <silent> <Leader>h ml:execute 'match Search /\%'.line('.').'l/'<CR>
 
   " Start BufExplorer
   nnoremap <silent><leader>l :BufExplorer<CR>
@@ -203,6 +209,13 @@ endif
   nnoremap <silent> <F3> :call Paste_on_off()<CR>
   set pastetoggle=<F3>
 
+" Open new split panes to right and bottom, which feels more natural
+set splitbelow
+set splitright
+
+" configure syntastic syntax checking to check on open as well as save
+let g:syntastic_check_on_open=1
+
 	" Repurpose left and right arrow keys to move between the buffers
 	nnoremap <silent> <Down>   :bn<CR>
 	nnoremap <silent> <Up>  :bp<CR>
@@ -212,6 +225,8 @@ endif
 	vmap > >gv
 	vmap < <gv
 	vmap = =gv
+
+  au BufRead,BufNewFile Capfile set filetype=ruby
 
 " 3RD-PARTY PLUGINS SETTINGS
 
@@ -238,3 +253,14 @@ endif
   noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
   noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
   noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+
+  " SnipMate
+  imap <C-J> <esc>a<Plug>snipMateNextOrTrigger
+  smap <C-J> <Plug>snipMateNextOrTrigger
+
+  " YouCompleteMe
+  let g:ycm_filetype_blacklist = {}
+  let g:ycm_complete_in_comments = 1
+  let g:ycm_collect_identifiers_from_comments_and_strings = 1
+  let g:ycm_seed_identifiers_with_syntax = 1
+  let g:ycm_filetype_identifier_grouping = 0
