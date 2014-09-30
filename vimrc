@@ -38,7 +38,6 @@ Plugin 'scrooloose/syntastic'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'ervandew/supertab'
 Plugin 'jelera/vim-javascript-syntax'
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'Raimondi/delimitMate'
 """""""""""""""
 " Bundles END "
@@ -217,8 +216,8 @@ set splitright
 let g:syntastic_check_on_open=1
 
 	" Repurpose left and right arrow keys to move between the buffers
-	nnoremap <silent> <Down>   :bn<CR>
-	nnoremap <silent> <Up>  :bp<CR>
+	nnoremap <silent> <Down>   gj
+	nnoremap <silent> <Up>  gk
 
 	" Indent visual selected code without unselecting
 	" As seen in vimcasts.org
@@ -253,14 +252,3 @@ let g:syntastic_check_on_open=1
   noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
   noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
   noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
-
-  " SnipMate
-  imap <C-J> <esc>a<Plug>snipMateNextOrTrigger
-  smap <C-J> <Plug>snipMateNextOrTrigger
-
-  " YouCompleteMe
-  let g:ycm_filetype_blacklist = {}
-  let g:ycm_complete_in_comments = 1
-  let g:ycm_collect_identifiers_from_comments_and_strings = 1
-  let g:ycm_seed_identifiers_with_syntax = 1
-  let g:ycm_filetype_identifier_grouping = 0

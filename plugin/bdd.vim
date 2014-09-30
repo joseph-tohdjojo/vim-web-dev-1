@@ -1,9 +1,13 @@
+" bdd.vim
 " Vim functions to run RSpec and Cucumber on the current file and optionally on
 " the spec/scenario under the cursor.
 
 function! RailsScriptIfExists(name)
+  " Zeus
+  if glob("`ls -a | grep '.zeus.sock'`") != ""
+    return "zeus " . a:name
   " Bundle exec
-  if isdirectory(".bundle") || (exists("b:rails_root") && isdirectory(b:rails_root . "/.bundle"))
+  elseif isdirectory(".bundle") || (exists("b:rails_root") && isdirectory(b:rails_root . "/.bundle"))
     return "bundle exec " . a:name
   " System Binary
   else
@@ -14,14 +18,13 @@ endfunction
 function! RunSpec(args)
   let spec = RailsScriptIfExists("rspec --drb")
   let cmd = spec . " " . a:args . " -fn -c " . @%
-  execute ":Dispatch " . cmd
+  execute ":! echo " . cmd . " && " . cmd
 endfunction
 
 function! RunCucumber(args)
   let cucumber = RailsScriptIfExists("cucumber --drb")
   let cmd = cucumber . " " . @% . a:args
-  "execute ":! echo " . cmd . " && " . cmd
-  execute ":Dispatch " . cmd
+  execute ":! echo " . cmd . " && " . cmd
 endfunction
 
 function! RunTestFile(args)
